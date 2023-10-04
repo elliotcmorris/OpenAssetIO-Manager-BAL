@@ -27,6 +27,7 @@ import os
 from unittest import mock
 
 from openassetio import constants
+from openassetio.hostApi import Manager
 from openassetio.access import PolicyAccess, PublishingAccess, RelationsAccess, ResolveAccess
 from openassetio.errors import (
     BatchElementError,
@@ -306,6 +307,22 @@ class Test_managementPolicy_library_specified_behavior(LibraryOverrideTestCase):
         actual = self._manager.managementPolicy(trait_sets, PolicyAccess.kCreateRelated, context)
 
         self.assertListEqual(actual, expected)
+
+
+class Test_hasCapability(FixtureAugmentedTestCase):
+    """
+    Tests that BAL reports expected capabilities
+    """
+
+    def test_when_hasCapability_called_then_expected_capabilities_reported(self):
+        self.assertFalse(self._manager.hasCapability(Manager.Capability.kStatefulContexts))
+        self.assertFalse(self._manager.hasCapability(Manager.Capability.kCustomTerminology))
+        self.assertFalse(self._manager.hasCapability(Manager.Capability.kDefaultEntityReferences))
+
+        self.assertTrue(self._manager.hasCapability(Manager.Capability.kResolution))
+        self.assertTrue(self._manager.hasCapability(Manager.Capability.kPublishing))
+        self.assertTrue(self._manager.hasCapability(Manager.Capability.kRelationshipQueries))
+        self.assertTrue(self._manager.hasCapability(Manager.Capability.kExistenceQueries))
 
 
 class Test_resolve(FixtureAugmentedTestCase):
