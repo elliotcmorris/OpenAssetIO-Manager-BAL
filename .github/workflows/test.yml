@@ -25,6 +25,7 @@ jobs:
           workflow_conclusion: success
           name: openassetio-wheels
           repo: OpenAssetIO/OpenAssetIO
+          pr: 1126
           path: deps
 
       - uses: actions/setup-python@v4
